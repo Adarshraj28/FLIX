@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inochi Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="container">
+  <div class="logo">INOCHI</div>
+  <ul>
+    <li><a class="active" href="index.html">Home</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a href="series.html">Series</a></li>
+    <li><a href="mylist.html">My List</a></li>
+    <li><a href="search.html">Search</a></li>
+  </ul>
+</nav>
+
+
+
+<div id="hero" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 id="heroTitle"></h1>
+    <p id="heroDesc" style="margin:12px 0 18px;color:#ccc"></p>
+    <button class="btn btn-red">Play Now</button>
+    <button class="btn btn-dark">More Info</button>
+
+  </div>
+</div>
+
+<div class="container section">
+  <h2>Trending Now</h2>
+  
+  <div id="trending" class="grid"></div>
+</div>
+
+<script src="./tmdb.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

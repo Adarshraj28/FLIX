@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Details | Inochi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR (reuse same navbar if you want) -->
+
+<section class="details-hero" id="details-hero">
+  <div class="details-content">
+    <h1 id="title"></h1>
+    <p id="overview"></p>
+
+    <div class="details-meta">
+      <span id="rating"></span>
+      <span id="year"></span>
+      <span class="hd">HD</span>
+    </div>
+
+    <div class="details-buttons">
+      <button class="play">▶ Play Trailer</button>
+      <button class="save">❤️ My List</button>
+    </div>
+  </div>
+</section>
+
+<section class="details-info">
+  <h2>More Information</h2>
+  <p id="genres"></p>
+</section>
+
+<script src="tmdb.js"></script>
+<script src="details.js"></script>
+
+</body>
+</html>

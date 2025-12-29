@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head><title>Series</title><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<nav class="container">
+  <div class="logo">INOCHI</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a class="active" href="series.html">Series</a></li>
+    <li><a href="search.html">Search</a></li>
+  </ul>
+</nav>
+
+<section class="movies-hero">
+  <h1>FIND YOUR NEXT <span>STORY</span></h1>
+  <p>Explore thousands of movies from every genre imaginable</p>
+
+  <div class="search-box">
+    <input type="text" id="movie-search" placeholder="Search for series..." />
+  </div>
+</section>
+
+<section class="container section">
+  <h2>Trending Now</h2>
+
+  <div class="grid" id="series">
+    <!-- Movie cards injected here -->
+  </div>
+</section>
+
+<script src="tmdb.js"></script>
+<script>
+get("/tv/popular").then(data=>{
+  const box=document.getElementById("series");
+  data.results.forEach(s=>{
+    box.innerHTML+=`
+      <div class="card">
+        <img src="${IMG+s.poster_path}">
+        <div class="card-title">${s.name}</div>
+      </div>`;
+  });
+});
+</script>
+</body></html>

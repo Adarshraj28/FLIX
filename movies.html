@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><title>Movies</title><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<nav class="container">
+  <div class="logo">INOCHI</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a class="active" href="movies.html">Movies</a></li>
+    <li><a href="series.html">Series</a></li>
+    <li><a href="search.html">Search</a></li>
+  </ul>
+</nav>
+
+<!-- NAVBAR (reuse same navbar) -->
+
+<section class="movies-hero">
+  <h1>FIND YOUR NEXT <span>STORY</span></h1>
+  <p>Explore thousands of movies from every genre imaginable</p>
+
+  <div class="search-box">
+    <input type="text" id="movie-search" placeholder="Search for movies..." />
+  </div>
+</section>
+
+<section class="container section">
+  <h2>Trending Now</h2>
+
+  <div class="grid" id="movies">
+    <!-- Movie cards injected here -->
+  </div>
+</section>
+
+<script src="tmdb.js"></script>
+<script>
+get("/movie/popular").then(data=>{
+  const box=document.getElementById("movies");
+  data.results.forEach(m=>{
+    box.innerHTML += `
+  <div class="card">
+    <img src="${IMG + m.poster_path}">
+
+    <!-- OVERLAY BUTTONS -->
+    <div class="card-overlay">
+      <button class="play-btn" onclick="playMovie(${m.id})">▶</button>
+      <button class="save-btn" onclick='addToMyList(${JSON.stringify(m)})'>❤️</button>
+    </div>
+
+    <div class="card-title">${m.title}</div>
+  </div>
+`;
+
+  });
+});
+</script>
+</body></html>
