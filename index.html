@@ -1,42 +1,274 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Inochi Clone</title>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <title>Flix | Home</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<nav class="container">
-  <div class="logo">INOCHI</div>
-  <ul>
-    <li><a class="active" href="index.html">Home</a></li>
-    <li><a href="movies.html">Movies</a></li>
-    <li><a href="series.html">Series</a></li>
-    <li><a href="mylist.html">My List</a></li>
-    <li><a href="search.html">Search</a></li>
-  </ul>
+<nav class="navbar">
+  <div class="nav-left">
+  <div class="logo">FLIX</div>
+</div>
+  <ul class="nav-center">
+  <li class="nav-item active">
+    <a href="index.html">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="movies.html">
+    <i class="fa-solid fa-film"></i>
+    <span>Movies</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="series.html">
+    <i class="fa-solid fa-tv"></i>
+    <span>Series</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="mylist.html">
+    <i class="fa-solid fa-heart"></i>
+    <span>My List</span></a>
+  </li>
+</ul>
+
+  
+
+   <div class="nav-right">
+    
+    <!-- NAV SEARCH -->
+  <div class="nav-search" id="navSearch">
+    <i class="fa-solid fa-magnifying-glass search-toggle" id="searchToggle"></i>
+
+    <div class="search-panel" id="searchPanel">
+      <input
+        type="text"
+        id="navSearchInput"
+        placeholder="Search movies or series..."
+        autocomplete="off"
+      />
+      <div class="search-results" id="navSearchResults"></div>
+    </div>
+  </div>
+
+
+     <!-- NOTIFICATION -->
+<div class="notification-wrapper" id="notificationWrapper">
+  <div class="notification" id="notificationBtn">
+    <i class="fa-solid fa-bell"></i>
+    <span class="badge" id="notificationCount">3</span>
+  </div>
+
+  <div class="notification-dropdown" id="notificationDropdown">
+    <div class="notification-header">Notifications</div>
+
+    <div class="notification-item">
+      🔥 New movies added today
+    </div>
+
+    <div class="notification-item">
+      ❤️ A movie was added to your list
+    </div>
+
+    <div class="notification-item">
+      ⭐ New trending series available
+    </div>
+
+    <div class="notification-footer">
+      View all updates
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!-- PROFILE DROPDOWN -->
+  <div class="profile-menu" id="profileMenu">
+  <div class="profile-btn">
+    <img src="https://i.pravatar.cc/40?img=12" class="avatar" />
+    <span class="username">Adarsh</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="profile-dropdown">
+    <a href="account.html">
+      <i class="fa-solid fa-user"></i> Account
+    </a>
+    <a href="settings.html">
+      <i class="fa-solid fa-gear"></i> Settings
+    </a>
+    <a href="#" class="logout">
+      <i class="fa-solid fa-right-from-bracket"></i> Log out
+    </a>
+  </div>
+</div>
+
 </nav>
 
 
-
 <div id="hero" class="hero">
+  <div class="hero-bg-blur"></div>
+  <div class="hero-left-blur"></div>
   <div class="hero-overlay"></div>
+
+  <!-- LEFT ARROW -->
+  <button class="hero-arrow left" id="heroPrev">❮</button>
+
+  <!-- RIGHT ARROW -->
+  <button class="hero-arrow right" id="heroNext">❯</button>
+
   <div class="hero-content">
+    <div class="trending-pill">TRENDING NOW</div>
     <h1 id="heroTitle"></h1>
     <p id="heroDesc" style="margin:12px 0 18px;color:#ccc"></p>
     <button class="btn btn-red">Play Now</button>
     <button class="btn btn-dark">More Info</button>
+    
+    <div class="hero-dots" id="heroDots"></div>
+
 
   </div>
+  <div id="weather-layer"></div>
+
 </div>
 
-<div class="container section">
-  <h2>Trending Now</h2>
-  
-  <div id="trending" class="grid"></div>
-</div>
+<section class="service-info">
 
-<script src="./tmdb.js"></script>
-<script src="./app.js"></script>
+  <span class="service-tag">TRANSPARENCY</span>
+  <h2 class="service-title">
+    SERVICE <span>INFORMATION</span>
+  </h2>
+  <p class="service-subtitle">
+    How Flix operates and protects your privacy
+  </p>
+
+  <div class="service-grid">
+
+    <div class="service-card blue">
+      <h3>🔍 Search Aggregator</h3>
+      <p>
+        Flix operates as a search engine, indexing publicly available
+        content from third-party sources. We do not host or store any media.
+      </p>
+    </div>
+
+    <div class="service-card purple">
+      <h3>📦 Zero Hosting</h3>
+      <p>
+        All content is embedded from external sources. We provide a unified
+        discovery interface for content freely available on the web.
+      </p>
+    </div>
+
+    <div class="service-card green">
+      <h3>🛡️ Privacy First</h3>
+      <p>
+        Your data is never sold or shared. Viewing history is controlled
+        entirely by you.
+      </p>
+    </div>
+
+    <div class="service-card yellow">
+      <h3>📊 Optional Tracking</h3>
+      <p>
+        Watch history is stored locally or via Trakt (optional).
+        You can clear data anytime.
+      </p>
+    </div>
+
+    <div class="service-card red">
+      <h3>📢 Advertisements</h3>
+      <p>
+        Ads are non-intrusive and served by third-party providers.
+      </p>
+    </div>
+
+    <div class="service-card orange">
+      <h3>⚠️ Legal Disclaimer</h3>
+      <p>
+        We do not own any content. All rights belong to respective owners.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-glow"></div>
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-brand">
+      <h2>FLIX</h2>
+      <p>
+        Discover movies & series from across the web.<br>
+        Fast. Clean. Private.
+      </p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-links">
+      <div>
+        <h4>Explore</h4>
+        <a href="index.html">Home</a>
+        <a href="movies.html">Movies</a>
+        <a href="series.html">Series</a>
+        <a href="mylist.html">My List</a>
+      </div>
+
+      <div>
+        <h4>Account</h4>
+        <a href="account.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#">Sign In</a>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="footer-bottom">
+    <span>© 2025 FLIX. All rights reserved.</span>
+
+    <div class="footer-social">
+      <i class="fa-brands fa-github"></i>
+      <i class="fa-brands fa-x-twitter"></i>
+      <i class="fa-brands fa-instagram"></i>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<script src="tmdb.js"></script>
+<script src="app.js"></script>
+<script src="play.js"></script>
+<script>
+document.querySelectorAll(".nav-center a").forEach(link => {
+  if (link.href === window.location.href) {
+    link.parentElement.classList.add("active");
+  }
+});
+</script>
+<script src="settings-sync.js"></script>
+<script src="weather.js"></script>
+
 </body>
 </html>
