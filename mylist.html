@@ -1,11 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>My List | Inochi</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <title>Flix | My List</title><link rel="stylesheet" href="style.css"></head>
 <body>
+
+<nav class="container">
+  <div class="nav-left">
+  <div class="logo">FLIX</div>
+  </div>
+  <ul class="nav-center">
+  <li class="nav-item">
+    <a href="index.html">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="movies.html">
+    <i class="fa-solid fa-film"></i>
+    <span>Movies</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="series.html">
+    <i class="fa-solid fa-tv"></i>
+    <span>Series</span></a>
+  </li>
+  <li class="nav-item active">
+    <a href="mylist.html">
+    <i class="fa-solid fa-heart"></i>
+    <span>My List</span></a>
+  </li>
+</ul>
+
+  
+
+   <div class="nav-right">
+    
+
+     <div class="notification-wrapper" id="notificationWrapper">
+  <div class="notification" id="notificationBtn">
+    <i class="fa-solid fa-bell"></i>
+    <span class="badge" id="notificationCount">3</span>
+  </div>
+
+  <div class="notification-dropdown" id="notificationDropdown">
+    <div class="notification-header">Notifications</div>
+
+    <div class="notification-item">
+      🔥 New movies added today
+    </div>
+
+    <div class="notification-item">
+      ❤️ A movie was added to your list
+    </div>
+
+    <div class="notification-item">
+      ⭐ New trending series available
+    </div>
+
+    <div class="notification-footer">
+      View all updates
+    </div>
+  </div>
+</div>
+
+    <!-- PROFILE DROPDOWN -->
+  <div class="profile-menu" id="profileMenu">
+  <div class="profile-btn">
+    <img src="https://i.pravatar.cc/40?img=12" class="avatar" />
+    <span class="username">Adarsh</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="profile-dropdown">
+    <a href="account.html">
+      <i class="fa-solid fa-user"></i> Account
+    </a>
+    <a href="settings.html">
+      <i class="fa-solid fa-gear"></i> Settings
+    </a>
+    <a href="#" class="logout">
+      <i class="fa-solid fa-right-from-bracket"></i> Log out
+    </a>
+  </div>
+</div>
+</nav>
 
 <!-- NAVBAR (reuse SAME navbar from other pages) -->
 
@@ -13,18 +94,18 @@
   <h1>MY LIST</h1>
   <p>Your saved movies & series</p>
 </section>
+<div id="weather-layer"></div>
 
 <section class="mylist-section">
-  <div class="movies-grid" id="mylist-grid">
-    <!-- Saved items will appear here -->
-  </div>
-
-  <p class="empty-msg" id="empty-msg">
-    You haven't added anything yet ❤️
-  </p>
+  <div class="grid" id="mylist-grid"></div>
+<p class="empty-msg" id="empty-msg" style="display:none">
+  You haven't added anything yet ❤️
+</p>
 </section>
 
 <script src="tmdb.js"></script>
 <script src="app.js"></script>
+<script src="settings-sync.js"></script>
+<script src="weather.js"></script>
 </body>
 </html>
