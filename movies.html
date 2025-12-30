@@ -1,16 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head><title>Movies</title><link rel="stylesheet" href="style.css"></head>
+<head>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <title>Flix | Movies</title><link rel="stylesheet" href="style.css"></head>
 <body>
 
 <nav class="container">
-  <div class="logo">INOCHI</div>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a class="active" href="movies.html">Movies</a></li>
-    <li><a href="series.html">Series</a></li>
-    <li><a href="search.html">Search</a></li>
-  </ul>
+  <div class="nav-left">
+  <div class="logo">FLIX</div>
+  </div>
+  <ul class="nav-center">
+  <li class="nav-item">
+    <a href="index.html">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span></a>
+  </li>
+  <li class="nav-item active">
+    <a href="movies.html">
+    <i class="fa-solid fa-film"></i>
+    <span>Movies</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="series.html">
+    <i class="fa-solid fa-tv"></i>
+    <span>Series</span></a>
+  </li>
+  <li class="nav-item">
+    <a href="mylist.html">
+    <i class="fa-solid fa-heart"></i>
+    <span>My List</span></a>
+  </li>
+</ul>
+   
+  <div class="nav-right">
+    
+     <!-- NOTIFICATION -->
+<div class="notification-wrapper" id="notificationWrapper">
+  <div class="notification" id="notificationBtn">
+    <i class="fa-solid fa-bell"></i>
+    <span class="badge" id="notificationCount">3</span>
+  </div>
+
+  <div class="notification-dropdown" id="notificationDropdown">
+    <div class="notification-header">Notifications</div>
+
+    <div class="notification-item">
+      🔥 New movies added today
+    </div>
+
+    <div class="notification-item">
+      ❤️ A movie was added to your list
+    </div>
+
+    <div class="notification-item">
+      ⭐ New trending series available
+    </div>
+
+    <div class="notification-footer">
+      View all updates
+    </div>
+  </div>
+</div>
+
+    <!-- PROFILE DROPDOWN -->
+  <div class="profile-menu" id="profileMenu">
+  <div class="profile-btn">
+    <img src="https://i.pravatar.cc/40?img=12" class="avatar" />
+    <span class="username">Adarsh</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="profile-dropdown">
+    <a href="account.html">
+      <i class="fa-solid fa-user"></i> Account
+    </a>
+    <a href="settings.html">
+      <i class="fa-solid fa-gear"></i> Settings
+    </a>
+    <a href="#" class="logout">
+      <i class="fa-solid fa-right-from-bracket"></i> Log out
+    </a>
+  </div>
+</div>
 </nav>
 
 <!-- NAVBAR (reuse same navbar) -->
@@ -23,35 +96,38 @@
     <input type="text" id="movie-search" placeholder="Search for movies..." />
   </div>
 </section>
+<div id="weather-layer"></div>
 
-<section class="container section">
-  <h2>Trending Now</h2>
+  <div class="genre-filter">
+  <button class="genre-btn" id="genreBtn">
+    <i class="fa-solid fa-layer-group"></i>
+    Genre
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
 
-  <div class="grid" id="movies">
+  <div class="genre-dropdown" id="genreDropdown">
+    <!-- genres injected here -->
+  </div>
+</div>
+<div class="genre-indicator" id="movieGenreLabel">
+  Popular Movies
+</div>
+
+  <div class="grid" id="movies-grid">
     <!-- Movie cards injected here -->
   </div>
 </section>
 
 <script src="tmdb.js"></script>
+<script src="app.js"></script> 
 <script>
-get("/movie/popular").then(data=>{
-  const box=document.getElementById("movies");
-  data.results.forEach(m=>{
-    box.innerHTML += `
-  <div class="card">
-    <img src="${IMG + m.poster_path}">
-
-    <!-- OVERLAY BUTTONS -->
-    <div class="card-overlay">
-      <button class="play-btn" onclick="playMovie(${m.id})">▶</button>
-      <button class="save-btn" onclick='addToMyList(${JSON.stringify(m)})'>❤️</button>
-    </div>
-
-    <div class="card-title">${m.title}</div>
-  </div>
-`;
-
-  });
+document.querySelectorAll(".nav-center a").forEach(link => {
+  if (link.href === window.location.href) {
+    link.parentElement.classList.add("active");
+  }
 });
 </script>
+<script src="play.js"></script>
+<script src="settings-sync.js"></script>
+<script src="weather.js"></script>
 </body></html>
