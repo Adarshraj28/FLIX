@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings | FLIX</title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="settings-body">
+
+  <!-- SETTINGS CONTAINER -->
+  <div class="settings-container">
+
+    <h1 class="settings-title">
+      <i class="fa-solid fa-gear"></i> Settings
+    </h1>
+
+    <!-- ACCOUNT -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-user"></i> Account</h2>
+
+      <div class="settings-row">
+        <span>Email</span>
+        <span class="muted">user@email.com</span>
+      </div>
+
+      <div class="settings-row">
+        <span>Password</span>
+        <button class="settings-btn">Change Password</button>
+      </div>
+    </section>
+
+    <!-- APPEARANCE -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-palette"></i> Appearance</h2>
+
+      <div class="settings-row">
+        <span>Dark Mode</span>
+        <label class="switch">
+          <input type="checkbox" id="darkMode" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <span>Hero Blur Effect</span>
+        <label class="switch">
+          <input type="checkbox" id="heroBlur" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <span>Animations</span>
+        <label class="switch">
+          <input type="checkbox" id="animations" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- PLAYBACK -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-play"></i> Playback</h2>
+
+      <div class="settings-row">
+        <span>Autoplay Trailers</span>
+        <label class="switch">
+          <input type="checkbox" id="autoplay" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <span>Default Quality</span>
+        <select class="settings-select" id="quality">
+          <option value="auto">Auto</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-bell"></i> Notifications</h2>
+
+      <div class="settings-row">
+        <span>New Releases</span>
+        <label class="switch">
+          <input type="checkbox" id="notifyNew" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <span>Recommendations</span>
+        <label class="switch">
+          <input type="checkbox" id="notifyRec">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-shield-halved"></i> Privacy</h2>
+
+      <div class="settings-row">
+        <span>Save Watch History</span>
+        <label class="switch">
+          <input type="checkbox" id="watchHistory" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <button class="settings-btn danger" id="clearHistory">
+          Clear Watch History
+        </button>
+      </div>
+    </section>
+
+    <!-- MY LIST -->
+    <section class="settings-card">
+      <h2><i class="fa-solid fa-heart"></i> My List</h2>
+
+      <div class="settings-row">
+        <button class="settings-btn danger" id="clearMyList">
+          Clear My List
+        </button>
+      </div>
+    </section>
+
+    <!-- DANGER ZONE -->
+    <section class="settings-card danger-zone">
+      <h2><i class="fa-solid fa-right-from-bracket"></i> Danger Zone</h2>
+
+      <button class="settings-btn danger full" id="logoutBtn">
+        Log Out
+      </button>
+    </section>
+
+  </div>
+
+  <!-- SETTINGS SCRIPT -->
+  <script src="settings.js"></script>
+
+</body>
+</html>

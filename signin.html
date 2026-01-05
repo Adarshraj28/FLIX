@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign In | FLIX</title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="auth-body">
+
+  <!-- Background glow -->
+  <div class="auth-bg"></div>
+
+  <!-- Sign In Card -->
+  <div class="auth-container">
+
+    <div class="auth-logo">FLIX</div>
+    <p class="auth-subtitle">Sign in to continue</p>
+
+    <div class="auth-form">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input
+          type="email"
+          id="signinEmail"
+          placeholder="Email address"
+          required />
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input
+          type="password"
+          id="signinPassword"
+          placeholder="Password"
+          required />
+      </div>
+
+      <button class="auth-btn" id="signinBtn">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        Sign In
+      </button>
+    </div>
+
+    <div class="auth-extra">
+      <a href="#">Forgot password?</a>
+      <span>•</span>
+      <a href="#">Create account</a>
+    </div>
+
+  </div>
+
+  <!-- Auth Logic -->
+  <script src="auth.js"></script>
+  <script>
+    document.getElementById("signinBtn").addEventListener("click", () => {
+      const email = document.getElementById("signinEmail").value.trim();
+      const password = document.getElementById("signinPassword").value.trim();
+
+      if (!email || !password) {
+        alert("Please enter email and password");
+        return;
+      }
+
+      // frontend-only sign in
+      signIn(email);
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>
