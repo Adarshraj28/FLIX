@@ -1,134 +1,80 @@
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-const type = params.get("type") || "movie";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flix | Details</title>
 
-/* Elements */
-const hero = document.getElementById("detailsHero");
-const titleEl = document.getElementById("detailsTitle");
-const overviewEl = document.getElementById("detailsOverview");
-const yearEl = document.getElementById("detailsYear");
-const runtimeEl = document.getElementById("detailsRuntime");
-const ratingEl = document.getElementById("detailsRating");
-const typeBadge = document.getElementById("detailsType");
-const castGrid = document.getElementById("castGrid");
-const similarGrid = document.getElementById("similarGrid");
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="details.css" />
+</head>
 
-/* Trailer */
-const trailerModal = document.getElementById("trailerModal");
-const trailerFrame = document.getElementById("trailerFrame");
-const playBtn = document.getElementById("playBtn");
-const closeTrailer = document.getElementById("closeTrailer");
+<body>
 
-/* =========================
-   LOAD DETAILS
-========================= */
 
-async function loadDetails() {
-  const data = await get(`/${type}/${id}`);
 
-  hero.style.backgroundImage =
-    `url(${IMG_ORIGINAL}${data.backdrop_path})`;
+<!-- TRAILER MODAL -->
+<div id="trailerModal" class="trailer-modal">
+  <div class="trailer-box">
+    <button class="trailer-close" id="closeTrailer">✕</button>
+    <iframe id="trailerFrame" allowfullscreen></iframe>
+  </div>
+</div>
 
-  titleEl.textContent = data.title || data.name;
-  overviewEl.textContent = data.overview || "No description available.";
+<!-- HERO -->
+<section id="detailsHero" class="details-hero hidden">
+  <div class="details-overlay"></div>
 
-  yearEl.textContent =
-    (data.release_date || data.first_air_date || "").slice(0, 4);
+  <div class="details-content">
+    <span class="details-badge" id="detailsType"></span>
 
-  runtimeEl.textContent =
-    data.runtime
-      ? `${data.runtime} min`
-      : data.episode_run_time?.[0]
-      ? `${data.episode_run_time[0]} min`
-      : "";
+    <h1 id="detailsTitle"></h1>
 
-  ratingEl.innerHTML =
-    `<i class="fa-solid fa-star"></i> ${data.vote_average.toFixed(1)}`;
+    <div class="details-meta">
+      <span id="detailsYear"></span>
+      <span id="detailsRuntime"></span>
+      <span id="detailsRating"></span>
+    </div>
 
-  typeBadge.textContent = type.toUpperCase();
+    <p id="detailsOverview"></p>
 
-  loadCast();
-  loadSimilar();
-}
+    <div class="details-buttons">
+      <button class="btn btn-red" id="playBtn">
+        <i class="fa-solid fa-play"></i> Play Trailer
+      </button>
+      <button class="btn btn-dark" id="listBtn">
+        <i class="fa-solid fa-plus"></i> My List
+      </button>
+    </div>
+  </div>
+</section>
 
-loadDetails();
+<!-- CAST -->
+<section class="details-section hidden">
+  <h2>Top Cast</h2>
+  <div class="cast-grid" id="castGrid"></div>
+</section>
 
-/* =========================
-   CAST
-========================= */
+<!-- SEASONS -->
+<section class="details-section hidden" id="seasonsSection">
+  <h2>Episodes</h2>
+  <select id="seasonSelect" class="season-select"></select>
+  <div class="episode-list" id="episodeList"></div>
+</section>
 
-async function loadCast() {
-  const data = await get(`/${type}/${id}/credits`);
-  castGrid.innerHTML = "";
+<!-- SIMILAR -->
+<section class="details-section hidden">
+  <h2>More Like This</h2>
+  <div class="similar-grid" id="similarGrid"></div>
+</section>
 
-  data.cast.slice(0, 10).forEach(actor => {
-    if (!actor.profile_path) return;
+<script src="tmdb.js"></script>
+<script src="details.js"></script>
+</body>
 
-    castGrid.innerHTML += `
-      <div class="cast-card">
-        <img src="${IMG}${actor.profile_path}">
-        <div class="cast-name">${actor.name}</div>
-        <div class="cast-role">${actor.character}</div>
-      </div>
-    `;
-  });
-}
-
-/* =========================
-   SIMILAR
-========================= */
-
-async function loadSimilar() {
-  const data = await get(`/${type}/${id}/similar`);
-  similarGrid.innerHTML = "";
-
-  data.results.slice(0, 12).forEach(item => {
-    if (!item.poster_path) return;
-
-    similarGrid.innerHTML += `
-      <div class="movie-card" onclick="location.href='details.html?id=${item.id}&type=${type}'">
-        <img src="${IMG}${item.poster_path}">
-        <div class="movie-info">
-          <div>${item.title || item.name}</div>
-        </div>
-      </div>
-    `;
-  });
-}
-
-/* =========================
-   TRAILER
-========================= */
-
-playBtn.addEventListener("click", async () => {
-  const data = await get(`/${type}/${id}/videos`);
-  const trailer = data.results.find(v => v.type === "Trailer");
-
-  if (!trailer) {
-    alert("Trailer not available");
-    return;
-  }
-
-  trailerFrame.src =
-    `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-
-  trailerModal.classList.add("active");
-});
-
-closeTrailer.addEventListener("click", () => {
-  trailerFrame.src = "";
-  trailerModal.classList.remove("active");
-});
-
-/* =========================
-   GLOBAL LOADER CONTROL
-========================= */
-
-window.addEventListener("load", () => {
-  const loader = document.getElementById("globalLoader");
-  if (!loader) return;
-
-  setTimeout(() => {
-    loader.classList.add("hide");
-  }, 600); // smooth delay
-});
+<!-- GLOBAL LOADER -->
+<div id="globalLoader" class="global-loader">
+  <div class="loader-ring"></div>
+</div>
+</html>
