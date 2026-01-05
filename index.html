@@ -128,8 +128,9 @@
     <div class="trending-pill">TRENDING NOW</div>
     <h1 id="heroTitle"></h1>
     <p id="heroDesc" style="margin:12px 0 18px;color:#ccc"></p>
-    <button class="btn btn-red">Play Now</button>
-    <button class="btn btn-dark">More Info</button>
+    <button class="btn btn-red" id="heroPlayBtn">Play Now</button>
+<button class="btn btn-dark" id="heroInfoBtn">More Info</button>
+
     
     <div class="hero-dots" id="heroDots"></div>
 
@@ -271,4 +272,15 @@ document.querySelectorAll(".nav-center a").forEach(link => {
 <script src="weather.js"></script>
 
 </body>
+<!-- GLOBAL LOADER -->
+<div id="pageLoader" class="page-loader active">
+  <div class="loader-inner">
+    <div class="loader-logo">FLIX</div>
+    <div class="loader-bar">
+      <span></span>
+    </div>
+  </div>
+</div>
+
 </html>
+
