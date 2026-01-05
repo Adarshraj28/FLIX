@@ -1,40 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Movie Details | Inochi</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Flix | Details</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="details.css" />
 </head>
 
 <body>
 
-<!-- NAVBAR (reuse same navbar if you want) -->
 
-<section class="details-hero" id="details-hero">
+
+<!-- TRAILER MODAL -->
+<div id="trailerModal" class="trailer-modal">
+  <div class="trailer-box">
+    <button class="trailer-close" id="closeTrailer">✕</button>
+    <iframe id="trailerFrame" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="detailsHero" class="details-hero hidden">
+  <div class="details-overlay"></div>
+
   <div class="details-content">
-    <h1 id="title"></h1>
-    <p id="overview"></p>
+    <span class="details-badge" id="detailsType"></span>
+
+    <h1 id="detailsTitle"></h1>
 
     <div class="details-meta">
-      <span id="rating"></span>
-      <span id="year"></span>
-      <span class="hd">HD</span>
+      <span id="detailsYear"></span>
+      <span id="detailsRuntime"></span>
+      <span id="detailsRating"></span>
     </div>
 
+    <p id="detailsOverview"></p>
+
     <div class="details-buttons">
-      <button class="play">▶ Play Trailer</button>
-      <button class="save">❤️ My List</button>
+      <button class="btn btn-red" id="playBtn">
+        <i class="fa-solid fa-play"></i> Play Trailer
+      </button>
+      <button class="btn btn-dark" id="listBtn">
+        <i class="fa-solid fa-plus"></i> My List
+      </button>
     </div>
   </div>
 </section>
 
-<section class="details-info">
-  <h2>More Information</h2>
-  <p id="genres"></p>
+<!-- CAST -->
+<section class="details-section hidden">
+  <h2>Top Cast</h2>
+  <div class="cast-grid" id="castGrid"></div>
+</section>
+
+<!-- SEASONS -->
+<section class="details-section hidden" id="seasonsSection">
+  <h2>Episodes</h2>
+  <select id="seasonSelect" class="season-select"></select>
+  <div class="episode-list" id="episodeList"></div>
+</section>
+
+<!-- SIMILAR -->
+<section class="details-section hidden">
+  <h2>More Like This</h2>
+  <div class="similar-grid" id="similarGrid"></div>
 </section>
 
 <script src="tmdb.js"></script>
 <script src="details.js"></script>
-
 </body>
+
+<!-- GLOBAL LOADER -->
+<div id="globalLoader" class="global-loader">
+  <div class="loader-ring"></div>
+</div>
 </html>
