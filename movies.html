@@ -4,7 +4,7 @@
   <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <title>Flix | Movies</title><link rel="stylesheet" href="style.css"></head>
+  <title>Flix | My List</title><link rel="stylesheet" href="style.css"></head>
 <body>
 
 <nav class="container">
@@ -17,7 +17,7 @@
     <i class="fa-solid fa-house"></i>
     <span>Home</span></a>
   </li>
-  <li class="nav-item active">
+  <li class="nav-item">
     <a href="movies.html">
     <i class="fa-solid fa-film"></i>
     <span>Movies</span></a>
@@ -27,17 +27,19 @@
     <i class="fa-solid fa-tv"></i>
     <span>Series</span></a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item active">
     <a href="mylist.html">
     <i class="fa-solid fa-heart"></i>
     <span>My List</span></a>
   </li>
 </ul>
-   
-  <div class="nav-right">
+
+  
+
+   <div class="nav-right">
     
-     <!-- NOTIFICATION -->
-<div class="notification-wrapper" id="notificationWrapper">
+
+     <div class="notification-wrapper" id="notificationWrapper">
   <div class="notification" id="notificationBtn">
     <i class="fa-solid fa-bell"></i>
     <span class="badge" id="notificationCount">3</span>
@@ -86,53 +88,24 @@
 </div>
 </nav>
 
-<!-- NAVBAR (reuse same navbar) -->
+<!-- NAVBAR (reuse SAME navbar from other pages) -->
 
-<section class="movies-hero">
-  <h1>FIND YOUR NEXT <span>STORY</span></h1>
-  <p>Explore thousands of movies from every genre imaginable</p>
-
-  <div class="search-box">
-    <input type="text" id="movie-search" placeholder="Search for movies..." />
-  </div>
+<section class="mylist-hero">
+  <h1>MY LIST</h1>
+  <p>Your saved movies & series</p>
 </section>
 <div id="weather-layer"></div>
 
-  <div class="genre-filter">
-  <button class="genre-btn" id="genreBtn">
-    <i class="fa-solid fa-layer-group"></i>
-    Genre
-    <i class="fa-solid fa-chevron-down"></i>
-  </button>
-
-  <div class="genre-dropdown" id="genreDropdown">
-    <!-- genres injected here -->
-  </div>
-</div>
-<div class="genre-indicator" id="movieGenreLabel">
-  Popular Movies
-</div>
-
-  <div class="grid" id="movies-grid">
-    <!-- Movie cards injected here -->
-  </div>
+<section class="mylist-section">
+  <div class="grid" id="mylist-grid"></div>
+<p class="empty-msg" id="empty-msg" style="display:none">
+  You haven't added anything yet ❤️
+</p>
 </section>
 
 <script src="tmdb.js"></script>
-<script src="app.js"></script> 
-<script>
-document.querySelectorAll(".nav-center a").forEach(link => {
-  if (link.href === window.location.href) {
-    link.parentElement.classList.add("active");
-  }
-});
-</script>
-<script src="play.js"></script>
+<script src="app.js"></script>
 <script src="settings-sync.js"></script>
 <script src="weather.js"></script>
 </body>
-<!-- GLOBAL LOADER -->
-<div id="globalLoader" class="global-loader">
-  <div class="loader-ring"></div>
-</div>
 </html>
