@@ -117,28 +117,37 @@ if (nextBtn) {
    HERO BUTTON ACTIONS
 ========================= */
 
-const playBtn = document.querySelector(".btn-red");
-const infoBtn = document.querySelector(".btn-dark");
+/* =========================
+   HERO BUTTON ACTIONS (FIXED)
+========================= */
 
-if (playBtn) {
-  playBtn.addEventListener("click", () => {
-    const movie = heroMovies[heroIndex];
+const heroPlayBtn = document.getElementById("heroPlayBtn");
+const heroInfoBtn = document.getElementById("heroInfoBtn");
+
+function getCurrentHeroMovie() {
+  return heroMovies[heroIndex];
+}
+
+/* PLAY NOW */
+if (heroPlayBtn) {
+  heroPlayBtn.addEventListener("click", () => {
+    const movie = getCurrentHeroMovie();
     if (!movie) return;
 
-    // Go to details page
     window.location.href = `details.html?id=${movie.id}`;
   });
 }
 
-if (infoBtn) {
-  infoBtn.addEventListener("click", () => {
-    const movie = heroMovies[heroIndex];
+/* MORE INFO */
+if (heroInfoBtn) {
+  heroInfoBtn.addEventListener("click", () => {
+    const movie = getCurrentHeroMovie();
     if (!movie) return;
 
-    // Simple info popup (safe)
-    alert(movie.overview || "No description available");
+    window.location.href = `details.html?id=${movie.id}`;
   });
 }
+
 
 
 /* =========================
@@ -410,7 +419,7 @@ function setActiveGenre(dropdown, activeItem) {
 }
 
 /* =========================
-   MY LIST
+   MY LIST BUTTON
 ========================= */
 
 function addToMyList(item) {
@@ -430,6 +439,75 @@ function addToMyList(item) {
   localStorage.setItem("myList", JSON.stringify(list));
   alert("Added to My List ❤️");
 }
+
+/* =========================
+   MY LIST PAGE RENDER
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.getElementById("mylist-grid");
+  const emptyMsg = document.getElementById("empty-msg");
+  if (!grid) return;
+
+  function renderMyList() {
+    const list = JSON.parse(localStorage.getItem("myList")) || [];
+    grid.innerHTML = "";
+
+    if (!list.length) {
+      emptyMsg.style.display = "block";
+      return;
+    }
+
+    emptyMsg.style.display = "none";
+
+    list.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      card.innerHTML = `
+        <img src="${IMG}${item.poster_path}">
+        <div class="card-overlay">
+          <button class="play-btn">▶</button>
+          <button class="remove-btn">✕</button>
+        </div>
+        <div class="movie-info">
+          <div>${item.title}</div>
+        </div>
+      `;
+
+      // PLAY
+      card.querySelector(".play-btn").onclick = e => {
+        e.stopPropagation();
+        window.location.href = `details.html?id=${item.id}`;
+      };
+
+      // REMOVE (FIXED)
+      card.querySelector(".remove-btn").onclick = e => {
+        e.stopPropagation();
+
+        card.classList.add("shrink-out");
+
+        setTimeout(() => {
+          removeFromMyList(item.id);
+          renderMyList(); // ✅ FORCE REBUILD GRID
+        }, 300);
+      };
+
+      grid.appendChild(card);
+    });
+  }
+
+  renderMyList();
+});
+
+// REMOVE FROM MYLIST//
+function removeFromMyList(id) {
+  let list = JSON.parse(localStorage.getItem("myList")) || [];
+  list = list.filter(item => String(item.id) !== String(id));
+  localStorage.setItem("myList", JSON.stringify(list));
+}
+
+
 
 /* =========================
    NOTIFICATION DROPDOWN LOGIC
@@ -465,3 +543,344 @@ dropdown.innerHTML = `
 `;
 
 notificationCount.textContent = updates.length;
+
+
+/* =========================
+   NAV SEARCH (TMDB)
+========================= */
+
+const navSearch = document.getElementById("navSearch");
+const searchToggle = document.getElementById("searchToggle");
+const searchPanel = document.getElementById("searchPanel");
+const searchInput = document.getElementById("navSearchInput");
+const searchResults = document.getElementById("navSearchResults");
+
+if (
+  navSearch &&
+  searchToggle &&
+  searchPanel &&
+  searchInput &&
+  searchResults
+) {
+
+let searchTimer = null;
+
+/* Toggle search panel */
+searchToggle.addEventListener("click", (e) => {
+  e.stopPropagation();
+  searchPanel.classList.toggle("active");
+  searchInput.focus();
+});
+
+/* Close search on outside click */
+document.addEventListener("click", (e) => {
+  if (!navSearch.contains(e.target)) {
+    searchPanel.classList.remove("active");
+  }
+});
+
+/* Live search input */
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchTimer);
+
+  const query = searchInput.value.trim();
+  if (query.length < 2) {
+    searchResults.innerHTML = "";
+    return;
+  }
+
+  searchTimer = setTimeout(() => {
+    tmdbSearch(query);
+  }, 400);
+});
+}
+
+/* TMDB search */
+async function tmdbSearch(query) {
+  searchResults.innerHTML = `
+    <div style="padding:8px;font-size:12px;color:#aaa">
+      Searching...
+    </div>
+  `;
+
+  try {
+    const data = await get(
+      `/search/multi?query=${encodeURIComponent(query)}`
+    );
+
+    searchResults.innerHTML = "";
+
+    data.results.forEach(item => {
+      if (!item.poster_path) return;
+      if (!["movie", "tv"].includes(item.media_type)) return;
+
+      const title = item.title || item.name;
+      const year =
+        item.release_date?.slice(0,4) ||
+        item.first_air_date?.slice(0,4) ||
+        "";
+
+      const div = document.createElement("div");
+      div.className = "search-item";
+
+      div.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w92${item.poster_path}">
+        <div>
+          <div class="search-item-title">${title}</div>
+          <div class="search-item-year">${year}</div>
+        </div>
+      `;
+
+      div.addEventListener("click", () => {
+        window.location.href =
+          `details.html?id=${item.id}&type=${item.media_type}`;
+      });
+
+      searchResults.appendChild(div);
+    });
+
+    if (!searchResults.children.length) {
+      searchResults.innerHTML = `
+        <div style="padding:8px;font-size:12px;color:#aaa">
+          No results found
+        </div>
+      `;
+    }
+
+  } catch (err) {
+    console.error("Search failed", err);
+    searchResults.innerHTML = `
+      <div style="padding:8px;font-size:12px;color:red">
+        Error loading search
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   GLOBAL LOADER CONTROL
+========================= */
+
+window.addEventListener("load", () => {
+  const loader = document.getElementById("globalLoader");
+  if (!loader) return;
+
+  setTimeout(() => {
+    loader.classList.add("hide");
+  }, 600); // smooth delay
+});
+
+/* =========================
+   MOVIES PAGE SEARCH (FINAL FIX)
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const movieSearchInput = document.getElementById("movie-search");
+  const moviesGrid = document.getElementById("movies-grid");
+  const movieGenreLabel = document.getElementById("movieGenreLabel");
+
+  if (!movieSearchInput || !moviesGrid) return;
+
+  let searchTimer = null;
+
+  movieSearchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+
+    const query = movieSearchInput.value.trim();
+
+    // RESET → Popular movies
+    if (query.length === 0) {
+      activeMovieGenre = null;
+      movieGenreLabel.textContent = "Popular Movies";
+      moviePage = 1;
+      moviesGrid.innerHTML = "";
+      loadMovies(true);
+      return;
+    }
+
+    if (query.length < 2) return;
+
+    searchTimer = setTimeout(() => {
+      searchMovies(query);
+    }, 400);
+  });
+
+});
+
+/* SEARCH MOVIES */
+async function searchMovies(query) {
+  if (!moviesGrid) return;
+
+  moviesGrid.innerHTML = "";
+  movieLoading = true;
+
+  try {
+    const data = await get(`/search/movie?query=${encodeURIComponent(query)}`);
+
+    movieGenreLabel.textContent = `Results for "${query}"`;
+
+    if (!data.results.length) {
+      moviesGrid.innerHTML = `
+        <div style="color:#aaa;font-size:16px;padding:40px">
+          No movies found
+        </div>
+      `;
+      movieLoading = false;
+      return;
+    }
+
+    data.results.forEach(movie => {
+      if (!movie.poster_path) return;
+
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      card.innerHTML = `
+        <span class="rating">
+          <i class="fa-solid fa-star"></i> ${movie.vote_average.toFixed(1)}
+        </span>
+
+        <img src="${IMG}${movie.poster_path}">
+
+        <div class="card-overlay">
+          <button class="play-btn">▶</button>
+          <button class="save-btn">＋</button>
+        </div>
+
+        <div class="movie-info">
+          <div>${movie.title}</div>
+          <div class="year">${movie.release_date?.slice(0,4) || ""}</div>
+        </div>
+      `;
+
+      card.querySelector(".play-btn").onclick = e => {
+        e.stopPropagation();
+        location.href = `details.html?id=${movie.id}`;
+      };
+
+      card.querySelector(".save-btn").onclick = e => {
+        e.stopPropagation();
+        addToMyList(movie);
+      };
+
+      moviesGrid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error("Movie search failed", err);
+  }
+
+  movieLoading = false;
+}
+
+
+/* =========================
+   SERIES PAGE SEARCH (FINAL FIX)
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const seriesSearchInput = document.getElementById("series-search");
+  const seriesGrid = document.getElementById("series-grid");
+  const seriesGenreLabel = document.getElementById("seriesGenreLabel");
+
+  if (!seriesSearchInput || !seriesGrid) return;
+
+  let searchTimer = null;
+
+  seriesSearchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+
+    const query = seriesSearchInput.value.trim();
+
+    // RESET → Popular Series
+    if (query.length === 0) {
+      activeSeriesGenre = null;
+      seriesGenreLabel.textContent = "Popular Series";
+      seriesPage = 1;
+      seriesGrid.innerHTML = "";
+      loadSeries(true);
+      return;
+    }
+
+    if (query.length < 2) return;
+
+    searchTimer = setTimeout(() => {
+      searchSeries(query);
+    }, 400);
+  });
+
+});
+
+/* SEARCH SERIES */
+async function searchSeries(query) {
+  if (!seriesGrid) return;
+
+  seriesGrid.innerHTML = "";
+  seriesLoading = true;
+
+  try {
+    const data = await get(
+      `/search/tv?query=${encodeURIComponent(query)}`
+    );
+
+    seriesGenreLabel.textContent = `Results for "${query}"`;
+
+    if (!data.results.length) {
+      seriesGrid.innerHTML = `
+        <div style="color:#aaa;font-size:16px;padding:40px">
+          No series found
+        </div>
+      `;
+      seriesLoading = false;
+      return;
+    }
+
+    data.results.forEach(show => {
+      if (!show.poster_path) return;
+
+      const card = document.createElement("div");
+      card.className = "movie-card";
+
+      card.innerHTML = `
+        <span class="rating">
+          <i class="fa-solid fa-star"></i> ${show.vote_average.toFixed(1)}
+        </span>
+
+        <img src="${IMG}${show.poster_path}">
+
+        <div class="card-overlay">
+          <button class="play-btn">▶</button>
+          <button class="save-btn">＋</button>
+        </div>
+
+        <div class="movie-info">
+          <div>${show.name}</div>
+          <div class="year">
+            ${show.first_air_date?.slice(0,4) || ""}
+          </div>
+        </div>
+      `;
+
+      card.querySelector(".play-btn").onclick = e => {
+        e.stopPropagation();
+        location.href =
+          `details.html?id=${show.id}&type=tv`;
+      };
+
+      card.querySelector(".save-btn").onclick = e => {
+        e.stopPropagation();
+        addToMyList(show);
+      };
+
+      seriesGrid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error("Series search failed", err);
+  }
+
+  seriesLoading = false;
+}
