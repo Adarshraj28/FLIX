@@ -149,15 +149,112 @@ nav ul li a.active,nav ul li a:hover{
     font-size:14px;
     font-weight:600
 }
-.search-box{
-    width:60%;
-    padding:14px;
-    border-radius:10px;
-    border:0;
-    background:#1b1b1d;
-    color:#fff;
-    font-size:16px
+
+/* =========================
+   MOVIE & SERIES SEARCH BAR
+========================= */
+
+.search-box {
+  position: relative;
+  width: 420px;
+  max-width: 92%;
+  margin: 0 auto;
 }
+
+/* INPUT */
+.search-box input,
+#movie-search,
+#series-search {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 14px;
+
+  background: rgba(15, 15, 18, 0.75);
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(229, 9, 20, 0.45);
+  color: white;
+
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+
+  outline: none;
+
+  box-shadow:
+    0 0 18px rgba(229, 9, 20, 0.25),
+    inset 0 0 14px rgba(255,255,255,0.04);
+
+  transition: all 0.35s ease;
+}
+
+/* PLACEHOLDER */
+.search-box input::placeholder,
+#movie-search::placeholder,
+#series-search::placeholder {
+  color: #aaaaaa;
+  font-weight: 400;
+}
+
+/* HOVER */
+.search-box input:hover,
+#movie-search:hover,
+#series-search:hover {
+  border-color: rgba(229, 9, 20, 0.75);
+  box-shadow:
+    0 0 26px rgba(229, 9, 20, 0.45),
+    inset 0 0 18px rgba(255,255,255,0.05);
+}
+
+/* FOCUS */
+.search-box input:focus,
+#movie-search:focus,
+#series-search:focus {
+  border-color: #e50914;
+  box-shadow:
+    0 0 38px rgba(229, 9, 20, 0.75),
+    inset 0 0 20px rgba(255,255,255,0.06);
+}
+
+/* PULSE EFFECT WHILE TYPING */
+.search-box input:focus-visible {
+  animation: searchPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes searchPulse {
+  0% {
+    box-shadow:
+      0 0 20px rgba(229,9,20,0.45),
+      inset 0 0 14px rgba(255,255,255,0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(229,9,20,0.85),
+      inset 0 0 20px rgba(255,255,255,0.08);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(229,9,20,0.45),
+      inset 0 0 14px rgba(255,255,255,0.05);
+  }
+}
+
+/*MOBILE RESPONSIVE*/
+@media (max-width: 768px) {
+  .search-box {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .search-box input,
+  #movie-search,
+  #series-search {
+    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 12px;
+  }
+}
+
 
 /* Side arrow */
 .row-section {
@@ -1995,4 +2092,96 @@ nav ul li a.active,nav ul li a:hover{
 .notification-footer:hover {
   text-shadow: 0 0 10px rgba(229,9,20,0.8);
 }
+
+/* SHRINK & FADE OUT */
+@keyframes shrinkOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+.shrink-out {
+  animation: shrinkOut 0.35s ease forwards;
+}
+
+#mylist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 22px;
+  width: 100%;
+  margin-top: 30px;
+  align-items: stretch;
+}.movie-card {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* =========================
+   GLOBAL LOADER
+========================= */
+
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #111 0%, #000 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-wrapper.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Dots Loader */
+.loader {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.loader span {
+  width: 14px;
+  height: 14px;
+  background: #e50914;
+  border-radius: 50%;
+  animation: pulse 1.4s infinite ease-in-out;
+  box-shadow: 0 0 20px rgba(229,9,20,0.9);
+}
+
+.loader span:nth-child(1) { animation-delay: 0s; }
+.loader span:nth-child(2) { animation-delay: 0.2s; }
+.loader span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 80%, 100% {
+    transform: scale(0.4);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Logo Text */
+.loader-text {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #e50914;
+  text-shadow:
+    0 0 10px rgba(229,9,20,0.8),
+    0 0 30px rgba(229,9,20,0.6);
+}
+
 
